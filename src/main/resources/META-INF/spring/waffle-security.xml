@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:sec="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd">
+
+    <bean id="loggerListener" class="org.springframework.security.authentication.event.LoggerListener" />
+
+    <!-- windows authentication provider -->
+    <bean id="waffleWindowsAuthProvider" class="waffle.windows.auth.impl.WindowsAuthProviderImpl"/>
+
+    <!-- waffle authentication provider -->
+    <bean id="waffleSpringAuthenticationProvider" class="github.priyatam.springsecurity.waffle.CustomAuthenticationProvider">
+        <property name="AllowGuestLogin" value="false" />
+        <property name="PrincipalFormat" value="fqn" />
+        <property name="RoleFormat" value="both" />
+        <property name="AuthProvider" ref="waffleWindowsAuthProvider" />
+    </bean>
+
+    <!-- spring authentication provider -->
+    <sec:authentication-manager alias="authenticationProvider">
+        <sec:authentication-provider ref="waffleSpringAuthenticationProvider" user-service-ref="accountDetailsService"/>
+    </sec:authentication-manager>
+    <bean id="accountDetailsService" class="github.priyatam.springsecurity.spring.AccountDetailsServiceImpl"/>
+
+    <!-- Core Spring Security -->
+    <sec:http auto-config="true">
+        <sec:intercept-url pattern="/app/login" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+        <sec:intercept-url pattern="/**" access="IS_AUTHENTICATED_FULLY" />
+        <sec:form-login
+                login-page="/login.jsp"
+                login-processing-url="/app/logincheck"
+                default-target-url="/app/home"
+                authentication-failure-url="/app/login?login_error=1" />
+    </sec:http>
+
+</beans>

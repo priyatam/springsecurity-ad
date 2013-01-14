@@ -1,0 +1,67 @@
+dn: ou=groups,dc=springframework,dc=org
+objectclass: top
+objectclass: organizationalUnit
+ou: groups
+
+dn: ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: organizationalUnit
+ou: people
+
+dn: uid=csr,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Customer Service Representative
+sn: CSR
+uid: csr
+userPassword: csr
+
+dn: uid=ops,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Operations
+sn: OPS
+uid: ops
+userPassword: ops
+
+dn: uid=supervisor,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Supervisor
+sn: SUP
+uid: supervisor
+userPassword: supervisor
+
+dn: uid=manager,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Manager
+sn: Manager
+uid: manager
+userPassword: manager
+
+dn: cn=csr,ou=groups,dc=springframework,dc=org
+objectclass: top
+objectclass: groupOfNames
+cn: user
+member: uid=csr,ou=people,dc=springframework,dc=org
+
+dn: cn=supervisor,ou=groups,dc=springframework,dc=org
+objectclass: top
+objectclass: groupOfNames
+cn: supervisor
+member: uid=supervisor,ou=people,dc=springframework,dc=org
+
+dn: cn=manager,ou=groups,dc=springframework,dc=org
+objectclass: top
+objectclass: groupOfNames
+cn: supervisor
+member: uid=manager,ou=people,dc=springframework,dc=org
